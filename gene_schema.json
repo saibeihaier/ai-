@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["gene_version", "system_name", "principles", "algorithms", "data_contracts", "parameter_constraints"],
+  "properties": {
+    "gene_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "基因版本号，语义化版本"
+    },
+    "system_name": {
+      "type": "string",
+      "description": "系统名称"
+    },
+    "principles": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "核心原则列表"
+    },
+    "algorithms": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["method"],
+        "properties": {
+          "method": { "type": "string" },
+          "description": { "type": "string" },
+          "threshold": { "type": "number" },
+          "formula": { "type": "string" }
+        }
+      },
+      "description": "算法范式定义"
+    },
+    "data_contracts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "required_fields": { "type": "array", "items": { "type": "string" } },
+          "optional_fields": { "type": "array", "items": { "type": "string" } },
+          "rules": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "description": "数据结构契约"
+    },
+    "parameter_constraints": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["min", "max", "default"],
+        "properties": {
+          "min": { "type": "number" },
+          "max": { "type": "number" },
+          "default": { "type": "number" }
+        }
+      },
+      "description": "参数范围约束"
+    },
+    "architectural_invariants": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "架构不变性条件"
+    },
+    "version_control": {
+      "type": "object",
+      "properties": {
+        "upgrade_policy": { "type": "string", "enum": ["manual_approval_required", "automatic_if_compatible"] },
+        "backward_compatible": { "type": "boolean" }
+      }
+    }
+  },
+  "additionalProperties": false
+}
