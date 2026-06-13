@@ -1,0 +1,58 @@
+## 2. 基因规范文件（`gene_spec.json`）
+
+```json
+{
+  "gene_version": "1.0.0",
+  "system_name": "RightBrain",
+  "principles": [
+    "right_brain_first",
+    "curiosity_required",
+    "learning_persist",
+    "forget_mechanism",
+    "associative_memory_persist"
+  ],
+  "algorithms": {
+    "color_recognition": {
+      "method": "HSV_segmentation",
+      "description": "基于HSV空间分段识别颜色，禁止使用神经网络或端到端方法。"
+    },
+    "shape_correction": {
+      "method": "aspect_ratio_threshold",
+      "threshold": 1.5,
+      "description": "三角形轮廓若长宽比 > 1.5 则修正为长方形。"
+    },
+    "memory_match_score": {
+      "formula": "weighted_dot_product",
+      "description": "score = Σ(w_i * match_i) / Σ(w_i)，匹配值完全匹配为1，形状相似为0.7，其他0。"
+    }
+  },
+  "data_contracts": {
+    "Marks": {
+      "required_fields": ["颜色", "形状", "大小", "纹理", "愉悦度", "感受"],
+      "optional_fields": ["年龄", "性别", "边缘距离", "支撑面", "距离", "光照"],
+      "rules": [
+        "深度传感器结果只能附加为 '_yolo_class' 和 '_yolo_confidence'，不得覆盖基础字段"
+      ]
+    },
+    "Experience": {
+      "required_fields": ["condition", "action", "confidence", "last_matched_time"],
+      "condition_required_fields": ["颜色", "形状"]
+    }
+  },
+  "parameter_constraints": {
+    "curiosity_threshold": { "min": 0.4, "max": 0.9, "default": 0.6 },
+    "confidence_threshold": { "min": 0.3, "max": 0.95, "default": 0.6 },
+    "forget_days": { "min": 3, "max": 30, "default": 7 },
+    "forget_decay_rate": { "min": 0.05, "max": 0.3, "default": 0.1 },
+    "max_consecutive_questions": { "min": 1, "max": 10, "default": 3 }
+  },
+  "architectural_invariants": [
+    "right_brain_must_be_called_before_left_brain",
+    "all_experiences_must_be_persisted_to_json",
+    "curiosity_question_must_trigger_when_match_below_threshold"
+  ],
+  "version_control": {
+    "upgrade_policy": "manual_approval_required",
+    "backward_compatible": true
+  }
+}
