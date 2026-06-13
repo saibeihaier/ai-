@@ -1,6 +1,3 @@
-## 2. 基因规范文件（`gene_spec.json`）
-
-```json
 {
   "gene_version": "1.0.0",
   "system_name": "RightBrain",
